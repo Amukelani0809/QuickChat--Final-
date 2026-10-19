@@ -83,6 +83,11 @@ public class QuickChat
         int count = 0;
         int num = 1; 
         
+        ArrayList<QuickChat> processedMessages = new ArrayList<>();
+        int sentCount = 0;
+        int storedCount = 0;
+        int disregardedCount = 0;
+        
         System.out.print("How many messages would you like to send? ");
                 
         while(!input.hasNextInt())
@@ -230,6 +235,7 @@ public class QuickChat
                         totalMessages++;
                         System.out.println(newMessage.SentMessage(input));
                         count++;
+                        sentCount++;
                         processed = true;
                         break;
 
@@ -244,16 +250,17 @@ public class QuickChat
                         System.out.println(" ");
                         System.out.println("Message disregarded");
                         count++;
+                        disregardedCount++;
                         processed = true;
                         break;
 
                     case 3:    
                         System.out.println(" ");
                         System.out.println("==== STORE MESSAGE ====");
-                        System.out.println(" ");
-                        
+                        System.out.println(" ");                 
                         System.out.println(newMessage.storeMessage());
                         count++;
+                        storedCount++;
                         processed = true;
                         break;
                         
@@ -265,17 +272,33 @@ public class QuickChat
                         count--;
                         break;
                 }
-                
               //  count++;
               }
     
             //After all the messages have been processed
+            System.out.println("==== SUMMARY ====");
             System.out.println(" ");
-            System.out.println("You have successfully processsed "
-            + count
-            + " message(s)");
             
-            System.out.println("Total messages sent: " + returnTotalMessage());
+            for(int i = 0; i < processedMessages.size(); i++)
+            {
+                QuickChat m = processedMessages.get(i);
+            System.out.println(" ");
+            System.out.println("---- Message " + (i + 1) + " ----");
+            System.out.println("Message ID : " + m.messageID);
+            System.out.println("Message Hash: " + m.messageHash);
+            System.out.println("Recipient   : " + m.recipient);
+            System.out.println("Message     : " + m.message);
+            System.out.println("Status      : " + m.messageStatus);
+            }
+            
+        System.out.println(" ");
+        System.out.println("==============================");
+        System.out.println("Messages processed : " + count);
+        System.out.println("Messages sent      : " + sentCount);
+        System.out.println("Messages stored    : " + storedCount);
+        System.out.println("Messages disregarded: " + disregardedCount);
+        System.out.println("Total messages sent (all time): " + returnTotalMessage());
+        System.out.println("==============================");
         }
     }
 
